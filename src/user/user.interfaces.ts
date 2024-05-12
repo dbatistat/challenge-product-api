@@ -20,3 +20,10 @@ export interface UpdateUser {
   password?: string
   recoverPassword?: string
 }
+
+export interface PublicUser {
+  id: number
+  username: string
+  fullname: string
+  email: string
+}

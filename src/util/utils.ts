@@ -6,3 +6,8 @@ export function encryptPassword(password: string): string {
     .digest('hex')
   return result
 }
+
+export interface Pagination<T> {
+  data: T[]
+  total: number
+}

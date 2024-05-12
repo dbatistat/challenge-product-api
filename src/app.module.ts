@@ -7,6 +7,7 @@ import { ConfigModule } from '@nestjs/config'
 import { TypeOrmModule } from '@nestjs/typeorm'
 import { DataSource } from 'typeorm'
 import { EmailModule } from './email/email.module'
+import { ProductModule } from './product/product.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { EmailModule } from './email/email.module'
     UserModule,
     AuthModule,
     EmailModule,
+    ProductModule,
   ],
   controllers: [AppController],
   providers: [AppService],
