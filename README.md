@@ -13,6 +13,7 @@ Este proyecto es una prueba tecnica
 - Modulo de usuarios
 - Encriptado de contraseña de usuario
 - Modulo de productos
+- Open APi con Swagger
 
 ## Instalación
 
@@ -28,6 +29,10 @@ $ npm install
 - Se recomienda usar las variables de configuración del archivo `.env-example`
 - Iniciar el proyecto con el comando `npm run start:dev`
 - Para tener productos de prueba, ejecutar el script de sql que esta en el archivo `script.sql`
+
+## Swagger
+
+- Para ver y realizar prueba de los servicios, entrar a la ruta `http://localhost:3000/api`
 
 ## Por mejorar
 

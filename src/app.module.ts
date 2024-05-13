@@ -1,5 +1,4 @@
 import { Module } from '@nestjs/common'
-import { AppController } from './app.controller'
 import { AppService } from './app.service'
 import { UserModule } from './user/user.module'
 import { AuthModule } from './auth/auth.module'
@@ -7,7 +6,7 @@ import { ConfigModule } from '@nestjs/config'
 import { TypeOrmModule } from '@nestjs/typeorm'
 import { DataSource } from 'typeorm'
 import { EmailModule } from './email/email.module'
-import { ProductModule } from './product/product.module';
+import { ProductModule } from './product/product.module'
 
 @Module({
   imports: [
@@ -29,7 +28,7 @@ import { ProductModule } from './product/product.module';
     EmailModule,
     ProductModule,
   ],
-  controllers: [AppController],
+  controllers: [],
   providers: [AppService],
 })
 export class AppModule {
