@@ -2,7 +2,13 @@ import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { User } from './user.entity'
 import { Repository } from 'typeorm'
-import { CreateUser, ExistUser, FindUser, UpdateUser } from './user.interfaces'
+import {
+  ChangePassword,
+  CreateUser,
+  ExistUser,
+  FindUser,
+  UpdateUser,
+} from './user.interfaces'
 import { encryptPassword } from '../util/utils'
 import { FindUserNotExistException } from './exceptions/find-user-not-exist.exception'
 import { UserNotExistException } from './exceptions/user-not-exist.exception'
@@ -70,6 +76,30 @@ export class UserService {
         password: encryptPassword(updateUser.password),
       }),
       recoverPassword: updateUser.recoverPassword,
+    })
+
+    return userUpdated
+  }
+
+  async changePassword(
+    id: number,
+    changePassword: ChangePassword,
+  ): Promise<User> {
+    console.log({ id, changePassword })
+    const existUser = await this.usersRepository.findOne({
+      where: {
+        id,
+        password: encryptPassword(changePassword.currentPassword),
+      },
+    })
+
+    if (existUser == null) {
+      throw new UserNotExistException()
+    }
+
+    const userUpdated = await this.usersRepository.save({
+      ...existUser,
+      password: encryptPassword(changePassword.newPassword),
     })
 
     return userUpdated
