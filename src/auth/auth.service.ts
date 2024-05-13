@@ -14,6 +14,7 @@ import { User } from '../user/user.entity'
 import { v4 as uuidv4 } from 'uuid'
 import * as process from 'process'
 import { TokenInvalidException } from './exceptions/token-invalid.exception'
+import { PublicUser } from '../user/user.interfaces'
 
 @Injectable()
 export class AuthService {
@@ -35,22 +36,27 @@ export class AuthService {
     }
 
     const payload = {
-      sub: user.id,
+      userId: user.id,
       username: user.username,
     }
 
     return {
       accessToken: await this.jwtService.signAsync(payload, {
         secret: process.env.JWT_SECRET,
+        expiresIn: '60m',
       }),
     }
+  }
+
+  async getUser(userId: number): Promise<PublicUser> {
+    return this.userService.getById(userId)
   }
 
   async signIn(signIn: SignIn): Promise<void> {
     await this.userService.create(signIn)
   }
 
-  async recoverPassword({ email }: RecoverPassword): Promise<void> {
+  async resetPasswordRequest({ email }: RecoverPassword): Promise<void> {
     const user: User = await this.userService.findUser({ email })
 
     if (user == null) {
@@ -65,11 +71,11 @@ export class AuthService {
       username: user.username,
       fullname: user.fullname,
       email: user.email,
-      link: `${process.env.URL}/recover-password?token=${token}`,
+      link: `${process.env.UI_URL}/auth/reset-password?token=${token}`,
     })
   }
 
-  async changePassword({ token, newPassword }: ChangePassword): Promise<void> {
+  async resetPassword({ token, newPassword }: ChangePassword): Promise<void> {
     const user: User = await this.userService.findUser({ token })
 
     if (user == null) {

@@ -31,7 +31,7 @@ export class ProductController {
 
   @Put(':id')
   async update(
-    @Param() id: number,
+    @Param('id') id: number,
     @Body() createOrUpdateProduct: Partial<CreateOrUpdateProduct>,
   ): Promise<Product> {
     const result = await this.productService.update(id, createOrUpdateProduct)
@@ -55,7 +55,6 @@ export class ProductController {
   async find(
     @Query() findProducts: Partial<FindProduct>,
   ): Promise<Pagination<Product>> {
-    console.log({ findProducts })
     const result = await this.productService.find(findProducts)
 
     return result

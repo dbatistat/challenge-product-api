@@ -55,28 +55,19 @@ export class ProductService {
   }
 
   async find(findProducts: Partial<FindProduct>): Promise<Pagination<Product>> {
-    const {
-      take,
-      skip,
-      handle,
-      title,
-      sku,
-      grams,
-      price,
-      comparePrice,
-      stock,
-      barcode,
-    } = findProducts
+    const { take, skip, filter } = findProducts
 
     const where = []
-    if (handle) where.push({ handle: Like(`%${handle}%`) })
-    if (title) where.push({ title: Like(`%${title}%`) })
-    if (sku) where.push({ sku: Like(`%${sku}%`) })
-    if (grams) where.push({ grams: Like(`%${grams}%`) })
-    if (price) where.push({ price: Like(`%${price}%`) })
-    if (comparePrice) where.push({ comparePrice: Like(`%${comparePrice}%`) })
-    if (stock) where.push({ stock: Like(`%${stock}%`) })
-    if (barcode) where.push({ barcode: Like(`%${barcode}%`) })
+    if (filter) {
+      where.push({ handle: Like(`%${filter}%`) })
+      where.push({ title: Like(`%${filter}%`) })
+      where.push({ sku: Like(`%${filter}%`) })
+      where.push({ grams: Like(`%${filter}%`) })
+      where.push({ price: Like(`%${filter}%`) })
+      where.push({ comparePrice: Like(`%${filter}%`) })
+      where.push({ stock: Like(`%${filter}%`) })
+      where.push({ barcode: Like(`%${filter}%`) })
+    }
 
     const [data, total] = await this.usersRepository.findAndCount({
       where: [...where],
